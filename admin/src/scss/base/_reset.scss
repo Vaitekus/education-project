@@ -1,0 +1,51 @@
+html {
+	box-sizing: border-box;
+  font-size: 62.5%;
+}
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+* {max-height: 1000000px;}
+
+body {
+  color: $base-text-color;
+  background: $base-background-color;
+  font: #{$font-size-base}/#{$line-height-base} $font-family-base;
+  min-width: $base-min-width;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  overflow: hidden;
+}
+
+// adaptive images
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: top;
+}
+
+button{
+  outline: none;
+}
+
+article, aside, footer, header, hgroup, main, nav, section {
+  display: block;
+}
+
+input[type='text'],
+input[type='tel'],
+input[type='email'],
+input[type='search'],
+input[type='password'],
+input[type='url'],
+input[type='date'],
+textarea {
+  -webkit-appearance: none;
+  -webkit-border-radius: 5px;
+  box-sizing: border-box;
+  border: 0;
+  outline: none;
+  font: #{$font-size-base}/1.5 $font-family-base;
+}

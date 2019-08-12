@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Xrystofor</title>
+    <meta content="width=device-width,maximum-scale=1.0,initial-scale=1.0,minimum-scale=1.0,user-scalable=yes,shrink-to-fit=no" name="viewport"/>
+    <link href="/main.css" rel="stylesheet">
+    <script type="text/javascript" defer src="main.js"></script>
+</head>
+<body> 
+    <div id="wrapper">
+        <header id="header">
+            <div class="container">
+                <img src="../assets/images/logo.jpg" width="200" height="50" alt="Xrystofor logo">
+            </div>
+        </header>
+        <main id="main">
+            <div class="container container__grid">
+                <input type="radio" class="hidden" id="products" value="1" name="navigation" checked='checked' />    
+                <input type="radio" class="hidden" id="games" value="2" name="navigation" />  
+                <div class="col-nav">
+                    <nav class="nav">
+                        <label class="nav__item" for="products">Products</label>
+                        <label class="nav__item" for="games">Games</label>
+                    </nav>
+                </div>
+                <div class="col-content">
+                    <div class="tab products">
+                        <div class="product__hold">
+                            <div class="product">
+                                <div class="item">
+                                    <div class="item__content">
+                                        <div class="row">
+                                            <div class="item__company">ШИФР КАЛГАНУ</div>
+                                            <div class="item__location">Львів</div>
+                                        </div>
+                                        <div class="item__visual">
+                                            <h1>RofoTs YrX</h1>
+                                        </div>
+                                        <div class="item__type">Stout</div>
+                                    </div>
+                                    <div class="row row-middle item__description">
+                                        <div class="item__price">
+                                            <p>0,3 - 34</p>
+                                            <p>0,5 - 50</p>
+                                        </div>
+                                        <div class="item__information">
+                                            <p>Alc - 4,8%</p>
+                                            <p>OG - 12,9%</p>
+                                            <p>IBU - 36</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <nav class="menu-item">
+                                    <button class="menu-item__trigger"><span>Menu</span></button>
+                                    <ul class="menu-item__list">
+                                        <li><i class="icon-edit"></i></li>
+                                        <li><i class="icon-trash"></i></li>
+                                    </ul>
+                                    <div class="menu-item__overlay"></div>
+                                </nav>
+                            </div>
+                            <div class="product">
+                                <div class="item">
+                                    <div class="item__content">
+                                        <div class="row">
+                                            <div class="item__company">ШИФР КАЛГАНУ</div>
+                                            <div class="item__location">Львів</div>
+                                        </div>
+                                        <div class="item__visual">
+                                            <h1>RofoTs YrX</h1>
+                                            <h1>RofoTs YrX</h1>
+                                        </div>
+                                        <div class="item__type">Stout</div>
+                                    </div>
+                                    <div class="row row-middle item__description">
+                                        <div class="item__price">
+                                            <p>0,3 - 34</p>
+                                            <p>0,5 - 50</p>
+                                        </div>
+                                        <div class="item__information">
+                                            <p>Alc - 4,8%</p>
+                                            <p>OG - 12,9%</p>
+                                            <p>IBU - 36</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="buttons">
+                            <button type="button" class="button overlay__trigger">Add item</button>
+                        </div>
+                    </div>
+                    <div class="tab games">
+                        <p>games</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="overlay">  <!-- open -->
+        <button type="button" class="overlay__close"><span class="icon-close "></span></button>
+        <form class="overlay__content">
+            <div class="item">
+                <div class="item__content">
+                    <div class="row">
+                        <div class="input">
+                            <input class="input__field" type="text" id="company">
+                            <label class="input__label" for="company">
+                                <i class="icon-colorpicker"></i>
+                            </label>
+                        </div>
+                        <div class="input">
+                            <input class="input__field" type="text" id="location">
+                            <label class="input__label" for="location">
+                                <i class="icon-colorpicker"></i>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="item__visual">
+                        <h1>RofoTs YrX</h1>
+                    </div>
+                    <div class="row">
+                        <div class="input">
+                            <input class="input__field" type="text" id="type">
+                            <label class="input__label" for="type">
+                                <i class="icon-colorpicker"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-middle item__description">
+                    <div class="item__price">
+                        <p>0,3 - 34</p>
+                        <p>0,5 - 50</p>
+                    </div>
+                    <div class="item__information">
+                        <p>Alc - 4,8%</p>
+                        <p>OG - 12,9%</p>
+                        <p>IBU - 36</p>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay__button">
+                <button type="button" class="button">Save</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

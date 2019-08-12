@@ -1,0 +1,77 @@
+.nav {
+    position: relative;
+    display: flex;
+
+    @include media('>=tablet') {
+        display: block;
+        margin-top: $space-large;
+    }
+
+    &::after {
+        content: '';
+        height: $nav-item-height;
+        width:50%;
+        background: $brand-color1;
+        position: absolute;
+        transition: $trans;
+        opacity: 0.8;
+        top: 0;
+        left: 0;
+
+        @include media('>=tablet') {
+            width:100%;
+        }
+    }
+
+    &__item {
+        font:$font-weight-bold #{$nav-item-font-size}/#{$nav-item-line-height} $font-heading;
+        padding: ($nav-item-height - $nav-item-line-height)/2;
+        display: block;
+        height: $nav-item-height;
+        cursor: pointer;
+        transition: .5s;
+        z-index: 2;
+        position: relative;
+        width: 50%;
+        text-align: center;
+
+        @include media('>=tablet') {
+            width:100%;
+            text-align: left;
+        }
+    }
+}
+
+.col-content > div {
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+}
+
+#products:checked ~ .col-nav [for='products'],
+#games:checked ~ .col-nav [for='games'] {
+    color: $light-color;
+}
+
+#products:checked ~ .col-nav nav:after {
+    top: 0;
+
+    @include media('>=tablet') {
+        left: 0;
+    }
+}
+#games:checked ~ .col-nav nav:after {
+    left: 50%;
+
+    @include media('>=tablet') {
+        top: $nav-item-height;
+        left: 0;
+    }
+}
+
+#products:checked ~ .col-content .products,
+#games:checked ~ .col-content .games {
+    opacity: 1;
+    visibility: visible;
+    display: block;
+}

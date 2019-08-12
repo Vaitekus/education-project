@@ -1,0 +1,122 @@
+.menu-item {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 0;
+    border-width: 0;
+    border-style: solid;
+    border-color: $grey-color;
+    background-color: rgba(0,0,0,0);
+    transition: border-width 0.3s, background-color 0.3s, height 0s 0.3s;
+
+    &__list {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        right: -#{$space-xlarge*3};
+        bottom: $menu-trigger-size;
+        color: $light-color;
+
+        li {
+            visibility: hidden;
+            width: $space-xlarge*3;
+            height: $space-xlarge*3;
+            line-height: $space-xlarge*3;
+            text-align: center;
+            font-size: $menu-trigger-size;
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.2s, visibility 0s 0.3s;
+
+            &:nth-child(1) {
+                transform: translate3d(0,200%,0);
+            }
+
+            &:nth-child(2) {
+                transform: translate3d(0,100%,0);
+            }
+        }
+    }
+
+    &--open {
+        height: 100%;
+        border-width: $space-base $space-xlarge*3 $space-base $space-base;
+        background-color: rgba(0,0,0,0.3);
+        transition: border-width 0.3s, background-color 0.3s;
+
+        .menu-item__overlay {
+            height: 100%;
+        }
+
+        .menu-item__trigger {
+            right: -58px;
+            bottom: -#{$space-xsmall};
+        }
+
+        .menu-item__trigger span {
+            background-color: transparent;
+
+            &::before{transform: translateY(0) rotate(45deg);}
+            &::after{transform: translateY(0) rotate(-45deg);}
+        }
+
+        .menu-item__list li {  ///should fix
+            visibility: visible;
+            opacity: 1;
+            transition: transform 0.3s, opacity 0.3s;
+            transform: translate3d(0,0,0);
+        }
+    }
+
+    &__trigger {
+        position: absolute;
+        right: $space-base;
+        bottom: $space-small;
+        z-index: 2;
+        display: block;
+        width: $menu-trigger-size;
+        height: $menu-trigger-size;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        transition: right 0.3s;
+        padding: 0;
+        // box-shadow: 0 0 0 0 rgba(176, 52, 52, 1);
+        // animation: pulse 2s infinite;
+
+        span {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 4px;
+            background-color: $light-color;
+            font-size: 0;
+            user-select: none;
+            transform: translateY(-50%);
+            transition: background-color 0.3s;
+
+            &::before,
+            &::after {
+                position: absolute;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: $light-color;
+                content: '';
+                transition: transform 0.3s;
+                transform: translateY(-300%);
+                
+            }
+
+            &::after {transform: translateY(300%);}
+        }
+    }
+
+    &__overlay {
+        position: absolute;
+        width: 100%;
+    }
+}
