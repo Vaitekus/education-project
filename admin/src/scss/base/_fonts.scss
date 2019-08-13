@@ -1,10 +1,10 @@
 $font-path: '/assets/fonts/';
 $icomoon-font-family: "icomoon";
 
-$icon-edit: "\e91b";
+$icon-download: "\e900";
 $icon-close: "\e920";
-$icon-download: "\f019";
-$icon-trash: "\f1f8";
+$icon-remove: "\e901";
+$icon-edit: "\e902";
 $icon-colorpicker: "\f1fb";
 
 @font-face {
@@ -30,9 +30,9 @@ $icon-colorpicker: "\f1fb";
 @font-face {
   font-family: '#{$icomoon-font-family}';
   src:
-    url('#{$font-path}/#{$icomoon-font-family}.ttf?9seslv') format('truetype'),
-    url('#{$font-path}/#{$icomoon-font-family}.woff?9seslv') format('woff'),
-    url('#{$font-path}/#{$icomoon-font-family}.svg?9seslv##{$icomoon-font-family}') format('svg');
+    url('#{$font-path}#{$icomoon-font-family}.ttf') format('truetype'),
+    url('#{$font-path}#{$icomoon-font-family}.woff') format('woff'),
+    url('#{$font-path}#{$icomoon-font-family}.svg##{$icomoon-font-family}') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -52,9 +52,9 @@ $icon-colorpicker: "\f1fb";
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-edit {
+.icon-download {
   &:before {
-    content: $icon-edit; 
+    content: $icon-download; 
   }
 }
 .icon-close {
@@ -62,14 +62,14 @@ $icon-colorpicker: "\f1fb";
     content: $icon-close; 
   }
 }
-.icon-download {
+.icon-remove {
   &:before {
-    content: $icon-download; 
+    content: $icon-remove; 
   }
 }
-.icon-trash {
+.icon-edit {
   &:before {
-    content: $icon-trash; 
+    content: $icon-edit; 
   }
 }
 .icon-colorpicker {

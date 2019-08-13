@@ -71,12 +71,10 @@ module.exports = {
       new ExtractTextPlugin("main.css", {options: {allChunks: true}})
     ],
     devServer: {
-      contentBase: path.resolve(__dirname, "../src/views/"),
-      compress: true,
+      // contentBase: path.resolve(__dirname, "../src/views/"),
+      compress: false,
       https: false,
       open: true,
-      overlay: true,
-      host: "127.0.0.1",
-      port: 8080
+      clientLogLevel: 'info'
     }
 };
