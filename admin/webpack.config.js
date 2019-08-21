@@ -6,7 +6,7 @@ const MODE = process.env.NODE_ENV || "development";
 
 module.exports = {
     mode: MODE,
-    devtool: 'source-map',
+    devtool: 'source-map', 
     entry: path.join(__dirname, "./src/index.js"),
     output: {
         path: path.resolve(__dirname, "dist"),

@@ -1,4 +1,3 @@
-
 import './scss/style.scss';
 
 import './js/modal.js';
