@@ -1,0 +1,57 @@
+.upload {
+  &__field {
+    max-width: 100%;
+    flex-basis: 100%;
+
+    @include media('>=tablet') {
+      max-width: 40%;
+      flex-basis: 40%;
+    }
+
+    label {
+      display: block;
+      margin: $space-xsmall;
+      cursor: pointer;
+      color: $light-color;
+      padding: $space-base $space-xlarge;
+      border: $border-width-small solid $light-color;
+    }
+
+    input {
+      position: fixed;
+      visibility: hidden;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &__image {
+    position: relative;
+    max-width: 100%;
+    flex-basis: 100%;
+    padding: $space-xsmall;
+
+    @include media('>=tablet') {
+      max-width: 60%;
+      flex-basis: 60%;
+    }
+
+    img {
+      max-width: 330px;
+      width: 100%;
+    }
+  }
+
+  &__delete {
+    position: absolute;
+    right: $space-large;
+    top: $space-base;
+    z-index: 1;
+    font-size: $font-size-xxlarge;
+    cursor: pointer;
+    color: $light-color;
+    background: $brand-color2;
+    padding: $space-small;
+    border: $border-width-small solid $light-color;
+  }
+}

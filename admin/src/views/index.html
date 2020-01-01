@@ -24,68 +24,9 @@
                 </div>
                 <div class="col-content">
                     <div class="tab products">
-                        <div class="product__hold">
-                            <div class="product">
-                                <div class="item">
-                                    <div class="item__content">
-                                        <div class="row">
-                                            <div class="item__company">ШИФР КАЛГАНУ</div>
-                                            <div class="item__location">Львів</div>
-                                        </div>
-                                        <div class="item__visual">
-                                            <h1>RofoTs YrX</h1>
-                                        </div>
-                                        <div class="item__type">Stout</div>
-                                    </div>
-                                    <div class="row row-middle item__description">
-                                        <div class="item__price">
-                                            <p>0,3 - 34</p>
-                                            <p>0,5 - 50</p>
-                                        </div>
-                                        <div class="item__information">
-                                            <p>Alc - 4,8%</p>
-                                            <p>OG - 12,9%</p>
-                                            <p>IBU - 36</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <nav class="menu-item">
-                                    <button class="menu-item__trigger"><span>Menu</span></button>
-                                    <ul class="menu-item__list">
-                                        <li><i class="icon-edit"></i></li>
-                                        <li><i class="icon-remove"></i></li>
-                                    </ul>
-                                    <div class="menu-item__overlay"></div>
-                                </nav>
-                            </div>
-                            <div class="product">
-                                <div class="item">
-                                    <div class="item__content">
-                                        <div class="row">
-                                            <div class="item__company">ШИФР КАЛГАНУ</div>
-                                            <div class="item__location">Львів</div>
-                                        </div>
-                                        <div class="item__visual">
-                                            <h1>RofoTs YrX</h1>
-                                            <h1>RofoTs YrX</h1>
-                                        </div>
-                                        <div class="item__type">Stout</div>
-                                    </div>
-                                    <div class="row row-middle item__description">
-                                        <div class="item__price">
-                                            <p>0,3 - 34</p>
-                                            <p>0,5 - 50</p>
-                                        </div>
-                                        <div class="item__information">
-                                            <p>Alc - 4,8%</p>
-                                            <p>OG - 12,9%</p>
-                                            <p>IBU - 36</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="product__hold"></div>
                         <div class="buttons">
+                            <button type="button" class="button primary">Upload items</button>
                             <button type="button" class="button overlay__trigger">Add item</button>
                         </div>
                     </div>
@@ -96,53 +37,123 @@
             </div>
         </main>
     </div>
-    <div class="overlay">  <!-- open -->
-        <button type="button" class="overlay__close"><span class="icon-close "></span></button>
-        <form class="overlay__content">
+    <div class="message">
+
+    </div>
+    <div class="overlay">
+        <button type="button" class="overlay__close"><span class="icon-close"></span></button>
+        <form class="adding-form overlay__content">
+            <input type="hidden" data-field name="productId" value="">
             <div class="item">
                 <div class="item__content">
                     <div class="row">
                         <div class="input">
-                            <input class="input__field" type="text" id="company">
-                            <label class="input__label" for="company">
+                            <input class="input__field" data-field type="text" name="company" placeholder="Company">
+                            <div type="button" class="input__button colorpicker company-colorpicker">
+                                <input data-field type="hidden" name="companyColor" value="">
                                 <i class="icon-colorpicker"></i>
-                            </label>
+                            </div>
                         </div>
                         <div class="input">
-                            <input class="input__field" type="text" id="location">
-                            <label class="input__label" for="location">
+                            <input class="input__field" data-field type="text" name="location" placeholder="Location">
+                            <div type="button" class="input__button colorpicker location-colorpicker" for="location">
+                                <input data-field type="hidden" name="locationColor" value="">
                                 <i class="icon-colorpicker"></i>
-                            </label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="item__visual">
-                        <h1>RofoTs YrX</h1>
                     </div>
                     <div class="row">
                         <div class="input">
-                            <input class="input__field" type="text" id="type">
-                            <label class="input__label" for="type">
+                            <input class="input__field" data-field type="text" name="title" placeholder="Title">
+                            <div type="button" class="input__button colorpicker title-colorpicker">
+                                <input data-field type="hidden" name="titleColor" value="">
                                 <i class="icon-colorpicker"></i>
-                            </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row--middle">
+                        <div class="upload__field">
+                            <label for="image">Choose image to upload (PNG, JPG)</label>
+                            <input type="file" id="image" name="image" accept=".jpg, .jpeg, .png">
+                        </div>
+                        <div class="upload__image">
+                            <p>No image currently selected for upload</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input">
+                            <input class="input__field" data-field type="text" name="type" placeholder="Type">
+                            <div type="button" class="input__button colorpicker type-colorpicker">
+                                <input data-field type="hidden" name="typeColor" value="">
+                                <i class="icon-colorpicker"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="row row-middle item__description">
-                    <div class="item__price">
-                        <p>0,3 - 34</p>
-                        <p>0,5 - 50</p>
+                <div class="row item__description">
+                    <div class="item__price"> 
+                        <div class="input">
+                            <input class="input__field price" type="text" placeholder="Price">
+                            <div type="button" class="input__button added-price">
+                                <!-- <input data-field type="hidden" name="priceColor" value=""> -->
+                                <i class="icon-plus"></i>
+                            </div>
+                        </div>
+                        <div class="item__priceList"></div>
                     </div>
                     <div class="item__information">
-                        <p>Alc - 4,8%</p>
-                        <p>OG - 12,9%</p>
-                        <p>IBU - 36</p>
+                        <div class="input">
+                            <input class="input__field information" data-field type="text" placeholder="Information">
+                            <div type="button" class="input__button added-information">
+                                <!-- <input data-field type="hidden" name="informationColor"> -->
+                                <i class="icon-plus"></i>
+                            </div>
+                        </div>
+                        <div class="item__informationList"></div>
                     </div>
                 </div>
             </div>
             <div class="overlay__button">
-                <button type="button" class="button">Save</button>
+                <button type="reset" class="button danger reset-form">Reset</button>
+                <button type="submit" class="button">Save</button>
             </div>
         </form>
     </div>
+    
+    <template id="product">
+        <div class="product">
+            <div class="item">
+                <div class="item__content">
+                    <div class="row">
+                        <div class="item__company"></div>
+                        <div class="item__location"></div>
+                    </div>
+                    <div class="item__visual">
+                        <h1></h1>
+                        <div class="item__image">
+                            <img src="" width="100%" height="auto" alt="">
+                        </div>
+                    </div>
+                    <div class="item__type"></div>
+                </div>
+                <div class="row row--middle item__description">
+                    <div class="item__price"></div>
+                    <div class="item__information"></div>
+                </div>
+            </div>
+            <nav class="menu-item">
+                <button class="menu-item__trigger"><span>Menu</span></button>
+                <ul class="menu-item__list">
+                    <li>
+                        <a href="#" class="menu-item__edit"><i class="icon-edit"></i></a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-item__remove"><i class="icon-remove"></i></a>  
+                    </li>
+                </ul>
+                <div class="menu-item__overlay"></div>
+            </nav>
+        </div>
+    </template>
 </body>
 </html>

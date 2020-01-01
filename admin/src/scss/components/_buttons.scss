@@ -38,15 +38,50 @@
             opacity: 1;
             transform: translate3d(0, 0, 0);
         }
-    }  
-  
+    }
+
     &.primary {
-      background: $brand-color1;
+        color: $brand-color2;
+        border-color: $brand-color2;
+        
+  
+        &::before {
+            background: $grey-color;
+        }
+
+        &:hover,
+        &:active {
+            color: $light-color;
+            border-color: $grey-color;
+        }
+    }
+  
+    &.danger {
+      color: $brand-color2;
+      border-color: $brand-color2;
+
+        &::before {
+            background: $brand-color1;
+        }
     }
 }
 
 .buttons {
-    padding: $space-base $space-small;
-    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @include media('>=tablet') {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .button {
+        margin: $space-small;
+
+        @include media('>=tablet') {
+            margin: $space-base $space-small;
+        }
+    }
 }
   

@@ -1,69 +1,37 @@
 .input {
     position: relative;
-    z-index: 1;
     flex: 1;
+    display: flex;
     min-width: 260px;
-    overflow: hidden;
     background: $light-color;
     margin: $space-xsmall;
 
     &__field {
         position: relative;
-        display: block;
-        float: right;
         padding: $space-small;
         border: none;
         border-radius: 0;
-        color: $grey-color;
+        color: $base-text-color;
         -webkit-appearance: none;
-        padding: $space-small $space-small $space-small $input-icon-size*2;
+        padding: $space-small #{$input-icon-size*2 + $space-small} $space-small $space-small;
         width: 100%;
-        background: transparent;
-        transform: translate3d($space-base, 0, 0);
-        transition: transform 0.3s;
-
-        &:focus {
-            transform: translate3d(0, 0, 0);
-
-            & + .input__label {
-                &::before{
-                    transform: scale3d(0.8, 1, 1);
-                }
-
-                i{transform: scale3d(0.6, 0.6, 1) translate(-50%, -50%);}
-            }
-        }
     }
 
-    &__label {
+    &__button {
         display: flex;
         align-items: center;
         justify-content: center;
-        float: right;
         position: absolute;
+        right: 0;
+        top: 0;
         width: $input-icon-size*2;
         height: 100%;
+        color: $brand-color2;
+        background-color: $light-grey-color;
         cursor: pointer;
         font-size: $input-icon-size;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         user-select: none;
-
-        &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            width: $input-icon-size*2;
-            height: 100%;
-            background: $grey-color;
-            transform-origin: 0% 50%;
-            transition: transform 0.3s;
-        }
-
-        i {
-            transition: transform 0.3s;
-        }
     }
 }

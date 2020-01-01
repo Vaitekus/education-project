@@ -13,6 +13,7 @@
 @import "product-item";
 @import "menu-item";
 @import "input-item";
+@import "upload-image";
 
 // Total styles
 .hidden {
@@ -34,7 +35,7 @@
 
 .container {
   margin: 0 auto;
-  max-width: 1200px;
+  max-width: 1024px;
 
   @include media('>=tablet') {
     padding: 0 $space-base;
@@ -50,7 +51,7 @@
   }
 }
 
-.row{
+.row {
   display: flex;
   justify-content: space-between;
   padding: $space-small;
@@ -60,7 +61,7 @@
     flex-wrap: nowrap;
   }
 
-  &-middle {
+  &--middle {
     align-items: center;
   }
 }
@@ -72,7 +73,7 @@
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
 }
 
-.col-nav{
+.col-nav {
   max-width: 100%;
   flex-basis: 100%;
   

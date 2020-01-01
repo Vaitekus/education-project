@@ -36,11 +36,11 @@
 
             &:nth-child(2) {
                 transform: translate3d(0,100%,0);
-            }
+            }  
+        }
 
-            &:hover i{
-                color: $light-grey-color;
-            }
+        a:hover{
+            color: $light-grey-color;
         }
     }
 

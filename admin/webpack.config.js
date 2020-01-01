@@ -49,6 +49,7 @@ module.exports = {
     ],
     devServer: {
         https: false,
-        open: true
+        open: true,
+        disableHostCheck: true
     }
 };
