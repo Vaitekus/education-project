@@ -1,0 +1,24 @@
+{
+    // 1. Install npm install nodemon -g
+    // run in admin folder: nodemon src/server/mongodb.js
+
+    // 2. Start mongoDB
+    // brew services start mongodb
+
+    // if have problem to "start", reinstall mongodb
+    // brew services stop mongodb
+    // brew uninstall mongodb
+    
+    // brew tap mongodb/brew
+    // brew install mongodb-community
+    // brew services start mongodb-community
+
+    // 3. Start local server
+    // run in admin folder: npm run dev
+
+    // 4. Check if port is busy 
+    // run in admin folder: lsof -i :3000
+
+    // 5. Kill it
+    // run in admin folder: kill 78308
+}

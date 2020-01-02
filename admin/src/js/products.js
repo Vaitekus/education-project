@@ -497,13 +497,6 @@ class View {
     this.initialY = this.currentY;
 
     this.isMouseDown = false;
-  }
-
-  dragEndEvent() {
-    debugger;
-    if (this.dragFunction) {
-      clearTimeout(this.dragFunction);
-     }
   };
 
   registerEvents() {
@@ -526,7 +519,6 @@ class View {
 
     this.container.addEventListener("mousedown", this.dragStart.bind(this), false);
     this.container.addEventListener("mousemove", this.dragMove.bind(this), false);
-    //this.container.addEventListener("mouseup", this.dragEndEvent.bind(this), false);
     this.container.addEventListener("mouseup", this.dragEnd.bind(this), false);
   }
 }
