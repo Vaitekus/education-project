@@ -132,24 +132,8 @@ class View {
   createElement(tag, className) {
     const element = document.createElement(tag);
 
-    // const classTitle = Array.isArray(className) ? className.join(' ') : className;
-    // let classTitle;
-    // if(Array.isArray(className)) {
-    //   classTitle = `${ ...className }`;
-    // } else {
-    //   classTitle = className;
-    // }
-    // const classTitle = Array.isArray(className) ? ${...className} : className;
-
     if (className) {
       element.setAttribute('class', Array.isArray(className) ? className.join(' ') : className);
-      // element.setAttribute('class', () =>{
-      //   if(Array.isArray(className)) {
-      //     return ...className;
-      //   } else {
-      //     return className;
-      //   }
-      // });
     };
 
     return element
@@ -250,7 +234,7 @@ class View {
   };
 
   displayDescriptionItem(value, holder, state, index) {
-    const element = this.createElement("p", "test");
+    const element = this.createElement("p");
 
     element.innerText = value;
     element.setAttribute("data-index", index);
@@ -299,6 +283,12 @@ class View {
 
   getFormData() {
     let inputsData = {};
+    const imageSrc = "";
+    const image = this.uploadImage.querySelector("img");
+
+    if(image) {
+      imageSrc = image.src
+    }
 
     this.addForm.querySelectorAll('input[data-field]').forEach((field) => {
       let key = field.name;
@@ -308,7 +298,7 @@ class View {
     })
 
     const arraysData = { 'price': this.priceArray || "", 'information': this.informationArray || ""};
-    const imageData = {'image': this.uploadImage.querySelector("img").src};
+    const imageData = {'image': imageSrc};
     const formData = {...inputsData, ...imageData, ...arraysData};
 
     return formData;
