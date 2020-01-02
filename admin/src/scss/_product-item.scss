@@ -10,11 +10,31 @@
     width: calc(50% - #{$space-small*2});
   }
 
+  &--blur {
+    filter: blur(3px);
+    animation: shake cubic-bezier(.36,.07,.19,.97) 0.82s infinite alternate;
+  }
+
+  &--active {
+    position: absolute;
+    pointer-events: none;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+  }
+
+  &--clone {
+    background: $grey-color;
+    filter: blur(1px);
+    margin: 0 $space-small $space-small*2; 
+  }
+
   &__hold {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     margin: 0 #{-$space-small};
+    position: relative;
 
     @include media('>=tablet') {
       justify-content: flex-start;

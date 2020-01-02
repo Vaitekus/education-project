@@ -125,6 +125,17 @@ class View {
 
     this.colorButtons = document.querySelectorAll(".input__button.colorpicker");
 
+    this.activeItem;
+    this.cloneItem;
+    this.dragFunction;
+    this.isMouseDown = false;
+    this.currentX = 0;
+    this.currentY = 0;
+    this.initialX;
+    this.initialY;
+    this.xOffset = 0;
+    this.yOffset = 0;
+
     this.initColorPicker();
     this.registerEvents();
   };
@@ -132,24 +143,8 @@ class View {
   createElement(tag, className) {
     const element = document.createElement(tag);
 
-    // const classTitle = Array.isArray(className) ? className.join(' ') : className;
-    // let classTitle;
-    // if(Array.isArray(className)) {
-    //   classTitle = `${ ...className }`;
-    // } else {
-    //   classTitle = className;
-    // }
-    // const classTitle = Array.isArray(className) ? ${...className} : className;
-
     if (className) {
       element.setAttribute('class', Array.isArray(className) ? className.join(' ') : className);
-      // element.setAttribute('class', () =>{
-      //   if(Array.isArray(className)) {
-      //     return ...className;
-      //   } else {
-      //     return className;
-      //   }
-      // });
     };
 
     return element
@@ -250,10 +245,10 @@ class View {
   };
 
   displayDescriptionItem(value, holder, state, index) {
-    const element = this.createElement("p", "test");
+    const element = this.createElement('p');
 
     element.innerText = value;
-    element.setAttribute("data-index", index);
+    element.setAttribute('data-index', index);
     holder.appendChild(element);
 
     if(state) {
@@ -446,6 +441,71 @@ class View {
     }
   };
 
+  dragStart(event) {
+    if (event.type === "touchstart") {
+      this.addBlurDragClass(event);
+      this.initialX = event.touches[0].clientX - this.xOffset;
+      this.initialY = event.touches[0].clientY - this.yOffset;
+    
+    } else {
+      this.dragFunction = setTimeout(() => {
+      this.addBlurDragClass(event);
+        this.initialX = event.clientX - this.xOffset;
+        this.initialY = event.clientY - this.yOffset;
+      }, 3000);
+    }
+  };
+
+  addBlurDragClass(event) {
+    this.activeItem = event.target.closest('.product');
+
+    if (this.activeItem) {
+      this.isMouseDown = true;
+      this.createCloneItem(this.activeItem);
+      this.activeItem.classList.add('product--active');
+      this.container.querySelectorAll('.product').forEach((item) => {
+        item.classList.add('product--blur');
+        this.activeItem.classList.remove('product--blur');
+      });
+    }
+  };
+
+  dragMove(event) {
+    if (!this.isMouseDown) {
+      return
+    };
+
+    var deltaX = event.clientX - this.initialX;
+    var deltaY = event.clientY - this.initialY;
+    this.activeItem.style.left = this.currentX + deltaX + 'px';
+    this.activeItem.style.top = this.currentY + deltaY + 'px';
+  };
+
+  createCloneItem(activeItem) {
+    this.cloneItem = this.createElement('div', 'product--clone');
+    this.cloneItem.style.width = activeItem.offsetWidth + 'px';
+    this.cloneItem.style.height = activeItem.offsetHeight + 'px';
+    this.container.insertBefore(this.cloneItem, activeItem);
+  };
+
+  dragEnd() {
+    if (this.dragFunction) {
+      clearTimeout(this.dragFunction);
+    }
+
+    this.initialX = this.currentX;
+    this.initialY = this.currentY;
+
+    this.isMouseDown = false;
+  }
+
+  dragEndEvent() {
+    debugger;
+    if (this.dragFunction) {
+      clearTimeout(this.dragFunction);
+     }
+  };
+
   registerEvents() {
     this.trigger.addEventListener("click", this.toggleModal.bind(this));
     this.closeButton.addEventListener("click", this.closeModal.bind(this));
@@ -458,6 +518,16 @@ class View {
       .bind(this, this.informationInput, this.infoHolder, this.informationArray));
     this.container.addEventListener('click', (event) => this.checkEventTarget(event));
     this.addForm.addEventListener('click', (event) => this.removeDescriptionItem(event));
+
+    //drag events
+    // this.container.addEventListener("touchstart", dragStart, false);
+    // this.container.addEventListener("touchend", dragEnd, false);
+    // this.container.addEventListener("touchmove", drag, false);
+
+    this.container.addEventListener("mousedown", this.dragStart.bind(this), false);
+    this.container.addEventListener("mousemove", this.dragMove.bind(this), false);
+    //this.container.addEventListener("mouseup", this.dragEndEvent.bind(this), false);
+    this.container.addEventListener("mouseup", this.dragEnd.bind(this), false);
   }
 }
 
