@@ -129,6 +129,7 @@ class View {
     this.cloneItem;
     this.dragFunction;
     this.isMouseDown = false;
+    this.isCloneCreated = false;
     this.currentX = 0;
     this.currentY = 0;
     this.initialX;
@@ -349,8 +350,18 @@ class View {
   };
 
   checkEventTarget(event) {
+    // event.stopPropogation();
+    event.preventDefault();
+
     if (event.target.closest('.menu-item__trigger')) {
       this.toggleMenu(event.target.closest('.menu-item'))
+    }
+
+    if (event.target.closest('.prev')) {
+      this.changeProductPosition(-1, event);
+    }
+    if (event.target.closest('.next')) {
+      this.changeProductPosition(1, event);
     }
   };
 
@@ -441,51 +452,76 @@ class View {
     }
   };
 
-  dragStart(event) {
-    if (event.type === "touchstart") {
-      this.addBlurDragClass(event);
-      this.initialX = event.touches[0].clientX - this.xOffset;
-      this.initialY = event.touches[0].clientY - this.yOffset;
-    
-    } else {
-      this.dragFunction = setTimeout(() => {
-      this.addBlurDragClass(event);
-        this.initialX = event.clientX - this.xOffset;
-        this.initialY = event.clientY - this.yOffset;
-      }, 3000);
-    }
-  };
-
-  addBlurDragClass(event) {
+  changeProductPosition(direction, event) {
+    console.log(direction, event)
     this.activeItem = event.target.closest('.product');
 
-    if (this.activeItem) {
-      this.isMouseDown = true;
-      this.createCloneItem(this.activeItem);
-      this.activeItem.classList.add('product--active');
-      this.container.querySelectorAll('.product').forEach((item) => {
-        item.classList.add('product--blur');
-        this.activeItem.classList.remove('product--blur');
-      });
+    console.log()
+    // this.container.insertBefore(this.activeItem, activeItemsArray[0]);
+    const allProducts = document.querySelectorAll('.product');
+    const number = [...allProducts].indexOf(this.activeItem);
+
+    if (direction > 0) {
+      // this.container.insertBefore(this.activeItem, allProducts[number - 1]);
+      allProducts[number + 1].parentNode.insertBefore(this.activeItem, allProducts[number + 1].nextSibling);
+    } else {
+      this.container.insertBefore(this.activeItem, allProducts[number - 1]);
     }
-  };
 
-  dragMove(event) {
-    if (!this.isMouseDown) {
-      return
-    };
 
+    // this.isMouseDown = false;
+
+    // console.log(this.activeItem)
+  }
+
+  setPosition(event){
     var deltaX = event.clientX - this.initialX;
     var deltaY = event.clientY - this.initialY;
-    this.activeItem.style.left = this.currentX + deltaX + 'px';
-    this.activeItem.style.top = this.currentY + deltaY + 'px';
-  };
 
-  createCloneItem(activeItem) {
-    this.cloneItem = this.createElement('div', 'product--clone');
-    this.cloneItem.style.width = activeItem.offsetWidth + 'px';
-    this.cloneItem.style.height = activeItem.offsetHeight + 'px';
-    this.container.insertBefore(this.cloneItem, activeItem);
+    this.activeItem.style.position = 'absolute';
+    this.activeItem.style.left = deltaX - this.activeItem.offsetParent.offsetLeft  + 'px';
+    this.activeItem.style.top = deltaY  - this.activeItem.offsetParent.offsetTop + 'px';
+    this.activeItem.style.zIndex = 100;
+
+    // this.addBlurDragClass(event);
+  }
+
+  dragStart(event) {
+    // if (event.type === "touchstart") {
+    //   this.addBlurDragClass(event);
+    //   this.initialX = event.touches[0].clientX - this.xOffset;
+    //   this.initialY = event.touches[0].clientY - this.yOffset;
+    
+    // } else {
+    //   this.dragFunction = setTimeout(() => {
+    //   }, 3000);
+    // }
+    
+    this.activeItem = event.target.closest('.product');
+
+    this.activeItem.classList.add('active-product');
+    
+    this.dimensionProduct = this.activeItem.getBoundingClientRect();
+    
+    this.initialX = event.clientX - this.dimensionProduct.left;
+    this.initialY = event.clientY - this.dimensionProduct.top;
+
+    this.isMouseDown = true;
+  };
+  
+  dragMove(event) {
+    if (!this.isMouseDown) {
+      return;
+    };
+
+    console.log('dragMove')
+
+    if (!this.isCloneCreated) {
+      this.isCloneCreated = true;
+      this.createCloneItem(this.activeItem);
+    }
+    
+    this.setPosition(event);
   };
 
   dragEnd() {
@@ -493,10 +529,60 @@ class View {
       clearTimeout(this.dragFunction);
     }
 
-    this.initialX = this.currentX;
-    this.initialY = this.currentY;
+    // this.initialX = this.currentX;
+    // this.initialY = this.currentY;
 
+    const allProductsArray = [...document.querySelectorAll('.product')];
+
+    // let activeItemsArray = this.container.querySelectorAll('.product').filter(item => {
+    let activeItemsArray = allProductsArray.filter(item => {
+      if (!item.classList.contains('active-product')) {
+        // let leftOffset = item.offsetLeft + item.offsetWidth / 2  > this.activeItem.offsetLeft && item.offsetLeft < this.activeItem.offsetLeft;
+        let leftOffset = this.activeItem.offsetWidth / 2 > this.activeItem.offsetLeft + this.activeItem.offsetWidth - item.offsetLeft - item.offsetWidth;
+        // let topOffset = this.activeItem.offsetHeight / 2 > this.activeItem.offsetTop + this.activeItem.offsetHeight - item.offsetTop - item.offsetHeight;
+
+        // if (leftOffset || topOffset) {
+        if (leftOffset) {
+          return item;
+        }
+      }
+    });
+
+    console.log(activeItemsArray)
+    if (!!activeItemsArray.length) {
+      this.container.insertBefore(this.activeItem, activeItemsArray[0]);
+    } else {
+      setTimeout(() => {
+        let lastElement = allProductsArray[allProductsArray.length - 1];
+        lastElement.parentNode.insertBefore(this.activeItem, lastElement.nextSibling);
+      }, 100);
+    }
+    
+    this.activeItem.style.position = 'relative';
+    this.activeItem.style.left = 'auto';
+    this.activeItem.style.top = 'auto';
+    this.activeItem.style.zIndex = 1;
+    this.activeItem.classList.remove('active-product');
     this.isMouseDown = false;
+    this.removeCloneItem();
+  };
+
+  addBlurDragClass(event) {
+    this.container.querySelectorAll('.product').forEach((item, index) => {
+      
+    });
+  };
+
+  createCloneItem() {
+    this.cloneItem = this.createElement('div', 'product--clone');
+    this.cloneItem.style.width = this.activeItem.offsetWidth + 'px';
+    this.cloneItem.style.height = this.activeItem.offsetHeight + 'px';
+    this.container.insertBefore(this.cloneItem, this.activeItem);
+  };
+
+  removeCloneItem() {
+    if(this.cloneItem && this.cloneItem.parentNode) this.cloneItem.parentNode.removeChild(this.cloneItem);
+    this.isCloneCreated = false;
   };
 
   registerEvents() {
@@ -517,9 +603,9 @@ class View {
     // this.container.addEventListener("touchend", dragEnd, false);
     // this.container.addEventListener("touchmove", drag, false);
 
-    this.container.addEventListener("mousedown", this.dragStart.bind(this), false);
-    this.container.addEventListener("mousemove", this.dragMove.bind(this), false);
-    this.container.addEventListener("mouseup", this.dragEnd.bind(this), false);
+    // this.container.addEventListener("mousedown", this.dragStart.bind(this), false);
+    // this.container.addEventListener("mousemove", this.dragMove.bind(this), false);
+    // this.container.addEventListener("mouseup", this.dragEnd.bind(this), false);
   }
 }
 
