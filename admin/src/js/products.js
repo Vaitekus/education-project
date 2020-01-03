@@ -295,6 +295,12 @@ class View {
 
   getFormData() {
     let inputsData = {};
+    const imageSrc = "";
+    const image = this.uploadImage.querySelector("img");
+
+    if(image) {
+      imageSrc = image.src
+    }
 
     this.addForm.querySelectorAll('input[data-field]').forEach((field) => {
       let key = field.name;
@@ -304,7 +310,7 @@ class View {
     })
 
     const arraysData = { 'price': this.priceArray || "", 'information': this.informationArray || ""};
-    const imageData = {'image': this.uploadImage.querySelector("img").src};
+    const imageData = {'image': imageSrc};
     const formData = {...inputsData, ...imageData, ...arraysData};
 
     return formData;
