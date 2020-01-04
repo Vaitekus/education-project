@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cors());
 
-mongoose.connect("mongodb://localhost:27017/xrystofor", { useNewUrlParser: true }, function(err){
+mongoose.connect("mongodb://localhost:27017/xrystofor", {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true }, function(err){
     if(err) return console.log(err);
 
     app.listen(3000, function(){

@@ -1,13 +1,14 @@
 $font-path: '/assets/fonts/';
 $icomoon-font-family: "icomoon";
 
-$icon-minus: "\f068";
-$icon-colorpicker: "\f1fb";
-$icon-plus: "\e90b";
+$icon-resize: "\e903";
 $icon-download: "\e900";
 $icon-close: "\e920";
 $icon-remove: "\e901";
 $icon-edit: "\e902";
+$icon-plus: "\e90b";
+$icon-minus: "\f068";
+$icon-colorpicker: "\f1fb";
 
 @font-face {
   font-family: 'vesper_libre_heavyregular';
@@ -55,14 +56,9 @@ $icon-edit: "\e902";
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-minus {
+.icon-resize {
   &:before {
-    content: $icon-minus; 
-  }
-}
-.icon-plus {
-  &:before {
-    content: $icon-plus; 
+    content: $icon-resize; 
   }
 }
 .icon-download {
@@ -83,6 +79,16 @@ $icon-edit: "\e902";
 .icon-edit {
   &:before {
     content: $icon-edit; 
+  }
+}
+.icon-plus {
+  &:before {
+    content: $icon-plus; 
+  }
+}
+.icon-minus {
+  &:before {
+    content: $icon-minus; 
   }
 }
 .icon-colorpicker {

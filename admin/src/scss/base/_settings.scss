@@ -18,16 +18,16 @@ $base-min-width: 320px;
 $base-background-color: $light-color;
 $base-text-color: #3d4449;
 $trans: all 0.5s ease-in-out;
-$border-radius: 5px;
+$border-radius: 4px;
 $border-width-small: 2px;
 $border-width: 4px;
 
 // Spaces
-$space-xlarge: 25px;
+$space-xlarge: 24px;
 $space-large: 20px;
-$space-base: 15px;
-$space-small: 10px;
-$space-xsmall: 5px;
+$space-base: 16px;
+$space-small: 8px;
+$space-xsmall: 4px;
 
 // Navigation
 $nav-item-height: 60px;
@@ -43,3 +43,7 @@ $menu-icon-size: 40px;
 
 // Input
 $input-icon-size: 24px;
+
+
+// Move item
+$menu-move-height: 34px;

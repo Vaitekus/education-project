@@ -95,7 +95,6 @@
                         <div class="input">
                             <input class="input__field price" type="text" placeholder="Price">
                             <div type="button" class="input__button added-price">
-                                <!-- <input data-field type="hidden" name="priceColor" value=""> -->
                                 <i class="icon-plus"></i>
                             </div>
                         </div>
@@ -105,7 +104,6 @@
                         <div class="input">
                             <input class="input__field information" data-field type="text" placeholder="Information">
                             <div type="button" class="input__button added-information">
-                                <!-- <input data-field type="hidden" name="informationColor"> -->
                                 <i class="icon-plus"></i>
                             </div>
                         </div>
@@ -122,10 +120,16 @@
     
     <template id="product">
         <div class="product item">
+            <div class="item__move">
+                <button type="button" class="item__move-trigger icon-resize"></button>
+                <div class="item__move-menu">
+                    <a href="#" class="item__move-button item__move-button--prev">prev</a>
+                    <a href="#" class="item__move-button item__move-button--next">next</a>
+                </div>
+                <div class="item__move-overlay"></div>
+            </div>
             <div class="item__content">
                 <div class="row">
-                    <a href="#" class="prev">prev</a>
-                    <a href="#" class="next">next</a>
                     <div class="item__company"></div>
                     <div class="item__location"></div>
                 </div>

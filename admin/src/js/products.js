@@ -15,9 +15,14 @@ class Model {
   getProducts() {
     return fetch(this.url + '/api/products')
     .then(response => {
-      return response.json().then((data) => {
-        return this.data = data;
-      });
+      if (response.ok) {
+        return response.json().then((data) => {
+          return this.data = data;
+        });
+      } else {
+        return Promise.reject(response.statusText)
+      }
+      
     })
     .catch(function(err) {
       console.log(err);
@@ -35,9 +40,14 @@ class Model {
       }
     })
     .then(response => {
+      if (response.ok) {
         return response.json().then(function(data) {
           return data;
         });
+      } else {
+        return Promise.reject(response.statusText)
+      }
+        
       })
     .catch(function(err) {
       console.log(err);
@@ -56,7 +66,12 @@ class Model {
       }
     })
     .then(response => {
-      return response;
+      if (response.ok) {
+        return response;
+      } else {
+        return Promise.reject(response.statusText)
+      }
+      
     })
     .catch(function(err) {
       console.log(err);
@@ -66,9 +81,13 @@ class Model {
   getProduct(id) {
     return fetch(this.url + '/api/products/' + id)
     .then(response => {
-      return response.json().then(function(data) {
-        return data;
-      });
+      if (response.ok) {
+        return response.json().then(function(data) {
+          return data;
+        });
+      } else {
+        return Promise.reject(response.statusText)
+      }
     }
   )
     .catch(function(err) {
@@ -87,15 +106,43 @@ class Model {
       }
     })
     .then(response => {
+      if (response.ok) {
         return response.json().then(function(data) {
           return data;
         });
+      } else {
+        return Promise.reject(response.statusText)
+      }
       }
     )
     .catch(function(err) {
       console.log(err);
     })
   };
+
+  updateProductPosition(data) {
+    return fetch(this.url + '/api/products', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json().then(function(data) {
+          return data;
+        });
+      } else {
+        return Promise.reject(response.statusText)
+      }
+      }
+    )
+    .catch(function(err) {
+      console.log(err);
+    })
+  }
 };
 
 
@@ -126,16 +173,6 @@ class View {
     this.colorButtons = document.querySelectorAll(".input__button.colorpicker");
 
     this.activeItem;
-    this.cloneItem;
-    this.dragFunction;
-    this.isMouseDown = false;
-    this.isCloneCreated = false;
-    this.currentX = 0;
-    this.currentY = 0;
-    this.initialX;
-    this.initialY;
-    this.xOffset = 0;
-    this.yOffset = 0;
 
     this.initColorPicker();
     this.registerEvents();
@@ -204,6 +241,10 @@ class View {
 
   toggleMenu(menu) {
     menu.classList.toggle("menu-item--open");
+  };
+
+  toggleMove(menu) {
+    menu.classList.toggle("item__move--open");
   };
 
   toggleModal() {
@@ -356,18 +397,14 @@ class View {
   };
 
   checkEventTarget(event) {
-    // event.stopPropogation();
     event.preventDefault();
 
     if (event.target.closest('.menu-item__trigger')) {
       this.toggleMenu(event.target.closest('.menu-item'))
     }
 
-    if (event.target.closest('.prev')) {
-      this.changeProductPosition(-1, event);
-    }
-    if (event.target.closest('.next')) {
-      this.changeProductPosition(1, event);
+    if (event.target.closest('.item__move-trigger')) {
+      this.toggleMove(event.target.closest('.item__move'))
     }
   };
 
@@ -458,137 +495,33 @@ class View {
     }
   };
 
-  changeProductPosition(direction, event) {
-    console.log(direction, event)
-    this.activeItem = event.target.closest('.product');
+  moveProduct(handler) {
+    this.container.addEventListener('click', event => {   
+      event.preventDefault(); 
+      if (event.target.closest('.item__move-button--prev')) {
+        this.changeProductPosition(-1, event, handler);
+      }
+  
+      if (event.target.closest('.item__move-button--next')) {
+        this.changeProductPosition(1, event, handler);
+      }
+    });
+  }
 
-    console.log()
-    // this.container.insertBefore(this.activeItem, activeItemsArray[0]);
+  changeProductPosition(direction, event, handler) {
+    let number;
     const allProducts = document.querySelectorAll('.product');
-    const number = [...allProducts].indexOf(this.activeItem);
+
+    this.activeItem = event.target.closest('.product');
+    number = [...allProducts].indexOf(this.activeItem);
 
     if (direction > 0) {
-      // this.container.insertBefore(this.activeItem, allProducts[number - 1]);
       allProducts[number + 1].parentNode.insertBefore(this.activeItem, allProducts[number + 1].nextSibling);
     } else {
       this.container.insertBefore(this.activeItem, allProducts[number - 1]);
     }
-
-
-    // this.isMouseDown = false;
-
-    // console.log(this.activeItem)
-  }
-
-  setPosition(event){
-    var deltaX = event.clientX - this.initialX;
-    var deltaY = event.clientY - this.initialY;
-
-    this.activeItem.style.position = 'absolute';
-    this.activeItem.style.left = deltaX - this.activeItem.offsetParent.offsetLeft  + 'px';
-    this.activeItem.style.top = deltaY  - this.activeItem.offsetParent.offsetTop + 'px';
-    this.activeItem.style.zIndex = 100;
-
-    // this.addBlurDragClass(event);
-  }
-
-  dragStart(event) {
-    // if (event.type === "touchstart") {
-    //   this.addBlurDragClass(event);
-    //   this.initialX = event.touches[0].clientX - this.xOffset;
-    //   this.initialY = event.touches[0].clientY - this.yOffset;
-    
-    // } else {
-    //   this.dragFunction = setTimeout(() => {
-    //   }, 3000);
-    // }
-    
-    this.activeItem = event.target.closest('.product');
-
-    this.activeItem.classList.add('active-product');
-    
-    this.dimensionProduct = this.activeItem.getBoundingClientRect();
-    
-    this.initialX = event.clientX - this.dimensionProduct.left;
-    this.initialY = event.clientY - this.dimensionProduct.top;
-
-    this.isMouseDown = true;
-  };
-  
-  dragMove(event) {
-    if (!this.isMouseDown) {
-      return;
-    };
-
-    console.log('dragMove')
-
-    if (!this.isCloneCreated) {
-      this.isCloneCreated = true;
-      this.createCloneItem(this.activeItem);
-    }
-    
-    this.setPosition(event);
-  };
-
-  dragEnd() {
-    if (this.dragFunction) {
-      clearTimeout(this.dragFunction);
-    }
-
-    // this.initialX = this.currentX;
-    // this.initialY = this.currentY;
-
-    const allProductsArray = [...document.querySelectorAll('.product')];
-
-    // let activeItemsArray = this.container.querySelectorAll('.product').filter(item => {
-    let activeItemsArray = allProductsArray.filter(item => {
-      if (!item.classList.contains('active-product')) {
-        // let leftOffset = item.offsetLeft + item.offsetWidth / 2  > this.activeItem.offsetLeft && item.offsetLeft < this.activeItem.offsetLeft;
-        let leftOffset = this.activeItem.offsetWidth / 2 > this.activeItem.offsetLeft + this.activeItem.offsetWidth - item.offsetLeft - item.offsetWidth;
-        // let topOffset = this.activeItem.offsetHeight / 2 > this.activeItem.offsetTop + this.activeItem.offsetHeight - item.offsetTop - item.offsetHeight;
-
-        // if (leftOffset || topOffset) {
-        if (leftOffset) {
-          return item;
-        }
-      }
-    });
-
-    console.log(activeItemsArray)
-    if (!!activeItemsArray.length) {
-      this.container.insertBefore(this.activeItem, activeItemsArray[0]);
-    } else {
-      setTimeout(() => {
-        let lastElement = allProductsArray[allProductsArray.length - 1];
-        lastElement.parentNode.insertBefore(this.activeItem, lastElement.nextSibling);
-      }, 100);
-    }
-    
-    this.activeItem.style.position = 'relative';
-    this.activeItem.style.left = 'auto';
-    this.activeItem.style.top = 'auto';
-    this.activeItem.style.zIndex = 1;
-    this.activeItem.classList.remove('active-product');
-    this.isMouseDown = false;
-    this.removeCloneItem();
-  };
-
-  addBlurDragClass(event) {
-    this.container.querySelectorAll('.product').forEach((item, index) => {
-      
-    });
-  };
-
-  createCloneItem() {
-    this.cloneItem = this.createElement('div', 'product--clone');
-    this.cloneItem.style.width = this.activeItem.offsetWidth + 'px';
-    this.cloneItem.style.height = this.activeItem.offsetHeight + 'px';
-    this.container.insertBefore(this.cloneItem, this.activeItem);
-  };
-
-  removeCloneItem() {
-    if(this.cloneItem && this.cloneItem.parentNode) this.cloneItem.parentNode.removeChild(this.cloneItem);
-    this.isCloneCreated = false;
+    this.toggleMove(event.target.closest('.item__move'))
+    handler("Id, index");
   };
 
   registerEvents() {
@@ -603,15 +536,6 @@ class View {
       .bind(this, this.informationInput, this.infoHolder, this.informationArray));
     this.container.addEventListener('click', (event) => this.checkEventTarget(event));
     this.addForm.addEventListener('click', (event) => this.removeDescriptionItem(event));
-
-    //drag events
-    // this.container.addEventListener("touchstart", dragStart, false);
-    // this.container.addEventListener("touchend", dragEnd, false);
-    // this.container.addEventListener("touchmove", drag, false);
-
-    // this.container.addEventListener("mousedown", this.dragStart.bind(this), false);
-    // this.container.addEventListener("mousemove", this.dragMove.bind(this), false);
-    // this.container.addEventListener("mouseup", this.dragEnd.bind(this), false);
   }
 }
 
@@ -662,11 +586,19 @@ class Controller {
     });
   };
 
+  positionProduct(id, index) {
+    this.model.updateProductPosition()
+    .then((response) => {
+      
+    });
+  };
+
   registerEvents() {
     this.loadedProducts();
     this.view.submitAddForm(this.saveProduct.bind(this), this.changeProduct.bind(this));
     this.view.removeProduct(this.deleteProduct.bind(this));
     this.view.editProduct(this.updateProduct.bind(this));
+    this.view.moveProduct(this.positionProduct.bind(this));
   };
 }
 
