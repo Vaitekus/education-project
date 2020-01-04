@@ -1,0 +1,45 @@
+$brand-color1: #f56a6a;
+$brand-color2: #272d39;
+$light-color:  #fff;
+$grey-color:   #878787;
+$light-grey-color: #eee;
+
+$font-family-base: 'Noticia Text', Georgia, Times, "Times New Roman", serif;
+$font-heading: 'Vesper Libre', Georgia, Times, "Times New Roman", serif;
+$font-weight-bold: bold;
+$font-weight-base: 400;
+
+$font-size-base: 16px;
+$font-size-large: 18px;
+$font-size-xlarge: 22px;
+$font-size-xxlarge: 26px;
+$line-height-base: 1.2;
+$base-min-width: 320px;
+$base-background-color: $light-color;
+$base-text-color: #3d4449;
+$trans: all 0.5s ease-in-out;
+$border-radius: 5px;
+$border-width-small: 2px;
+$border-width: 4px;
+
+// Spaces
+$space-xlarge: 25px;
+$space-large: 20px;
+$space-base: 15px;
+$space-small: 10px;
+$space-xsmall: 5px;
+
+// Navigation
+$nav-item-height: 60px;
+$nav-item-font-size: $font-size-xxlarge;
+$nav-item-line-height: $font-size-xxlarge*$line-height-base;
+
+// Modal
+$modal-button-size: 40px;
+
+// Menu item
+$menu-trigger-size: 50px;
+$menu-icon-size: 40px;
+
+// Input
+$input-icon-size: 24px;
