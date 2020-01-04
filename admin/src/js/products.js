@@ -120,29 +120,29 @@ class Model {
     })
   };
 
-  updateProductPosition(data) {
-    return fetch(this.url + '/api/products', {
-      method: 'PUT',
-      body: JSON.stringify(data),
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(response => {
-      if (response.ok) {
-        return response.json().then(function(data) {
-          return data;
-        });
-      } else {
-        return Promise.reject(response.statusText)
-      }
-      }
-    )
-    .catch(function(err) {
-      console.log(err);
-    })
-  }
+  // updateProductPosition(data) {
+  //   return fetch(this.url + '/api/products', {
+  //     method: 'PUT',
+  //     body: JSON.stringify(data),
+  //     mode: 'cors',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })
+  //   .then(response => {
+  //     if (response.ok) {
+  //       return response.json().then(function(data) {
+  //         return data;
+  //       });
+  //     } else {
+  //       return Promise.reject(response.statusText)
+  //     }
+  //     }
+  //   )
+  //   .catch(function(err) {
+  //     console.log(err);
+  //   })
+  // }
 };
 
 
@@ -495,20 +495,20 @@ class View {
     }
   };
 
-  moveProduct(handler) {
+  moveProduct() {
     this.container.addEventListener('click', event => {   
       event.preventDefault(); 
       if (event.target.closest('.item__move-button--prev')) {
-        this.changeProductPosition(-1, event, handler);
+        this.changeProductPosition(-1, event);
       }
   
       if (event.target.closest('.item__move-button--next')) {
-        this.changeProductPosition(1, event, handler);
+        this.changeProductPosition(1, event);
       }
     });
   }
 
-  changeProductPosition(direction, event, handler) {
+  changeProductPosition(direction, event) {
     let number;
     const allProducts = document.querySelectorAll('.product');
 
@@ -521,7 +521,7 @@ class View {
       this.container.insertBefore(this.activeItem, allProducts[number - 1]);
     }
     this.toggleMove(event.target.closest('.item__move'))
-    handler("Id, index");
+    //handler("Id, index");
   };
 
   registerEvents() {
@@ -586,19 +586,20 @@ class Controller {
     });
   };
 
-  positionProduct(id, index) {
-    this.model.updateProductPosition()
-    .then((response) => {
+  // positionProduct(id, index) {
+  //   this.model.updateProductPosition()
+  //   .then((response) => {
       
-    });
-  };
+  //   });
+  // };
 
   registerEvents() {
     this.loadedProducts();
     this.view.submitAddForm(this.saveProduct.bind(this), this.changeProduct.bind(this));
     this.view.removeProduct(this.deleteProduct.bind(this));
     this.view.editProduct(this.updateProduct.bind(this));
-    this.view.moveProduct(this.positionProduct.bind(this));
+    this.view.moveProduct();
+    //this.view.moveProduct(this.positionProduct.bind(this));
   };
 }
 
