@@ -57,11 +57,17 @@
     }
   
     &.danger {
-      color: $brand-color2;
-      border-color: $brand-color2;
+      color: $grey-color;
+      border-color: $grey-color;
 
         &::before {
             background: $brand-color1;
+        }
+
+        &:hover,
+        &:active {
+            color: $brand-color2;
+            border-color: $brand-color2;
         }
     }
 }

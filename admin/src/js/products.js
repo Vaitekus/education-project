@@ -154,6 +154,8 @@ class View {
 
     //this.message = document.querySelector(".message");
 
+    this.styleTag;
+    this.styleText = '';
     this.addForm = document.querySelector(".adding-form");
     this.priceArray = []; 
     this.informationArray = [];
@@ -188,14 +190,17 @@ class View {
     return element
   };
 
+  createStyleTag() {
+    const head = document.head || document.getElementsByTagName('head')[0];
+    this.styleTag = document.createElement('style');
+
+    head.appendChild(this.styleTag);
+    this.styleTag.type = 'text/css';
+  };
+
   displayProducts(items) {
     if('content' in document.createElement('template')) {
-      const style = document.createElement('style');
-      const head = document.head || document.getElementsByTagName('head')[0];
-      let styleText = '';
-
-      head.appendChild(style);
-      style.type = 'text/css';
+      this.createStyleTag();
 
       items.forEach((item) => {
         const template = document.querySelector('#product').content.cloneNode(true);
@@ -209,11 +214,12 @@ class View {
         this._renderMixedField(item.price, template.querySelector('.item__price'));
         this._renderMixedField(item.information, template.querySelector('.item__information')); 
         template.querySelector('.product').setAttribute('data-id', `product-${item._id}`);
+        template.querySelector('.product').setAttribute('data-position', `${item.position}`);
         this.container.appendChild(template);
 
-        styleText = styleText + itemStyle;
-      });
-      style.innerText = styleText;
+        this.styleText = this.styleText + itemStyle;
+      }); 
+      this.styleTag.innerText = this.styleText;
     } 
     else {
       console.error('Your browser does not support templates');
@@ -230,6 +236,8 @@ class View {
   };
 
   _renderMixedField(fieldsArray, holder, state) {
+    holder.innerHTML = '';
+
     fieldsArray.forEach((item, index) => {
       this.displayDescriptionItem(item, holder, state, index);
     })
@@ -257,8 +265,8 @@ class View {
   };
 
   resetAddingForm() {
-    this.priceArray = [];
-    this.informationArray = [];
+    this.priceArray.length = 0;
+    this.informationArray.length = 0;
     this.priceHolder.innerHTML = "";
     this.infoHolder.innerHTML = "";
     this.addForm.querySelector('[name="productId"]').value = "";
@@ -336,7 +344,7 @@ class View {
 
   getFormData() {
     let inputsData = {};
-    const imageSrc = "";
+    let imageSrc = "";
     const image = this.uploadImage.querySelector("img");
 
     if(image) {
@@ -365,6 +373,7 @@ class View {
       if (this.modal.querySelector('[name="productId"]').value.length) {
         handlerUpdate(data)
       } else {
+        data.position = document.querySelectorAll('.product').length;
         handlerAdd(data)
       }
     });
@@ -410,6 +419,7 @@ class View {
 
   showProductModal(product) {
     this.modal.querySelector('[name="productId"]').value = product._id;
+    this.modal.querySelector('[name="position"]').value = product.position;
     this.modal.querySelector('[name="company"]').value = product.company;
     this.modal.querySelector('[name="companyColor"]').value = product.companyColor;
     this.modal.querySelector('[name="location"]').value = product.location;
@@ -420,8 +430,10 @@ class View {
     this.modal.querySelector('[name="typeColor"]').value = product.typeColor;
     this._renderMixedField(product.price, this.priceHolder, true);
     this._renderMixedField(product.information, this.infoHolder, true);
-    this.priceArray = [...product.price];
-    this.informationArray = [...product.information];
+    this.priceArray.length = 0;
+    this.priceArray.push(...product.price);
+    this.informationArray.length = 0;
+    this.informationArray.push(...product.information);
 
     if(product.image.length) {
       this.createImage(product.image);
@@ -448,7 +460,10 @@ class View {
     parent.querySelector('.item__visual img').src = product.image;
     parent.querySelector('.item__type').innerHTML = product.type;
     this._renderMixedField(product.price, parent.querySelector('.item__price'));
-    this._renderMixedField(product.information, parent.querySelector('.item__information')); 
+    this._renderMixedField(product.information, parent.querySelector('.item__information'));
+
+    this.styleText = this.styleText + this.renderItemStyles(product);
+    this.styleTag.innerText = this.styleText;
   };
 
   loadImage() {
@@ -462,15 +477,30 @@ class View {
   };
 
   createImage(imageSrc) {
-    const currentFile = this.uploadInput.files;
+    const currentFile = this.uploadInput.files[0];
     const image = document.createElement('img');
     const deleteButton = this.createElement('button', ['icon-close', 'upload__delete']);
 
     this.removeUploadContent();
     deleteButton.setAttribute("type", "button");
-    image.src = imageSrc ? imageSrc : window.URL.createObjectURL(currentFile[0]); //????????
+
     this.uploadImage.appendChild(image);
     this.uploadImage.appendChild(deleteButton);
+
+    if(imageSrc) {
+      image.src = imageSrc;
+    } else {
+      const reader = new FileReader();
+
+      reader.addEventListener("load", function () {
+        image.src = reader.result;
+      }, false);
+
+      if (currentFile) {
+        reader.readAsDataURL(currentFile);
+      }
+    }
+     
   }
 
   deleteImage(event) {
@@ -550,6 +580,7 @@ class Controller {
   loadedProducts() {
     this.model.getProducts()
     .then((response) => {
+      response.sort((a, b) => a.position - b.position)
       this.view.displayProducts(response);
     });
   };

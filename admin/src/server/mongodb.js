@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 const productScheme = new Schema(
     {
         productId: String,
+        position: String,
         company: String,
         companyColor: String,
         location: String,
@@ -40,10 +41,13 @@ mongoose.connect("mongodb://localhost:27017/xrystofor", {useUnifiedTopology: tru
 });
 
 app.get('/api/products', cors(), function(req, res){
+    console.log("products");
     Product.find({}, function(err, products) {
         if(err) {
-            return console.log(err)
+            console.error(err)
+            res.sendStatus(500);
         };
+        console.log(products);
         res.send(products);
     });
 
@@ -51,6 +55,7 @@ app.get('/api/products', cors(), function(req, res){
 
 app.post(`/api/products`, function(req, res){
     const product = new Product({
+        position: req.body.position,
         company: req.body.company,
         companyColor: req.body.companyColor,
         location: req.body.location,
@@ -69,7 +74,8 @@ app.post(`/api/products`, function(req, res){
     product.save(function (err) {
         mongoose.disconnect();
         if(err) {
-            return console.log(err)
+            console.error(err)
+            res.sendStatus(500);
         };
         res.send(product);
     })
@@ -81,7 +87,8 @@ app.delete("/api/products/:id", function(req, res){
     Product.findByIdAndDelete(id, function(err, product){
             
         if(err) {
-            return console.log(err)
+            console.error(err)
+            res.sendStatus(500);
         };
 
         return res.status(202).send({
@@ -96,7 +103,8 @@ app.get("/api/products/:id", cors(), function(req, res){
     Product.findOne({_id: id}, function(err, product){
           
         if(err) {
-            return console.log(err)
+           console.error(err)
+           res.sendStatus(500);
         };
         res.send(product);
     });
@@ -105,11 +113,12 @@ app.get("/api/products/:id", cors(), function(req, res){
 app.put("/api/products", function(req, res){
          
     if(!req.body) {
-        return res.sendStatus(400);
+        res.sendStatus(400);
     }
     const id = req.body.productId;
     const newProduct = {
         productId: req.body.productId,
+        position: req.body.position,
         company: req.body.company,
         companyColor: req.body.companyColor,
         location: req.body.location,
@@ -129,8 +138,10 @@ app.put("/api/products", function(req, res){
         
     function(err, product){
         if(err) {
-            return console.log(err);
+            console.error(err)
+            res.sendStatus(500);
         } 
+
         res.send(product);
     });
 });
